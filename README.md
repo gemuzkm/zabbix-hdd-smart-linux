@@ -32,6 +32,7 @@ or
 ## Copy files. Scripts to send smart parameters to zabbix-server:
 
 /etc/zabbix/scripts/drives.drives.smart
+
 /etc/zabbix/scripts/drives.smart.temperature
 
 ## Add scripts to the cron run (drives.smart every hour, drives.smart.temperature every minute):
