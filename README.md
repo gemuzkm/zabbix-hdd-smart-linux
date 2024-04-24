@@ -6,11 +6,25 @@
 - zabbix_agent
 - zabbix_sender
 
-## Create a disk autodiscovery script:
+## Disk autodiscovery script (copy along the path):
 
 /etc/zabbix/scripts/drives.discovery
 
-## Create scripts to send smart parameters to zabbix-server:
+## Add custom drives.discovery parameter to zabbix-agent:
+
+```
+echo "UserParameter=drives.discovery, /etc/zabbix/scripts/drives.discovery" > /etc/zabbix/zabbix_agentd.d/userparameter_drives.discovery.conf
+```
+
+## Restart zabbix-agent (option depends on your system)
+systemctl restart zabbix-agent
+
+or
+
+/etc/init.d/zabbix-agent restart
+
+
+## Scripts to send smart parameters to zabbix-server (copy along the path):
 
 /etc/zabbix/scripts/drives.drives.smart
 /etc/zabbix/scripts/drives.smart.temperature
@@ -19,4 +33,10 @@
 
 1 */1 * * * root /etc/zabbix/scripts/drives.smart
 */1 * * * * root /etc/zabbix/scripts/drives.smart.temperature
+
+## Template for zabbix server
+
+You need to import the template and add it to the desired host.
+
+Path: Template for zabbix\Template_HDD-SMART-LINUX.xml
 
