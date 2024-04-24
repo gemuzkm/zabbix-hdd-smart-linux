@@ -14,6 +14,12 @@
 
 /etc/zabbix/scripts/drives.discovery
 
+## Make the file executable:
+
+```
+chmod +x /etc/zabbix/scripts/drives.discovery
+```
+
 ## Add custom drives.discovery parameter to zabbix-agent:
 
 ```
@@ -35,9 +41,20 @@ or
 
 /etc/zabbix/scripts/drives.smart.temperature
 
+## Make the files executable:
+
+```
+chmod +x /etc/zabbix/scripts/drives.drives.smart
+```
+
+```
+chmod +x /etc/zabbix/scripts/drives.smart.temperature
+```
+
 ## Add scripts to the cron run (drives.smart every hour, drives.smart.temperature every minute):
 
 1 */1 * * * root /etc/zabbix/scripts/drives.smart
+
 */1 * * * * root /etc/zabbix/scripts/drives.smart.temperature
 
 ## Template for zabbix server
