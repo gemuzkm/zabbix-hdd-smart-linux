@@ -8,7 +8,7 @@
 
 ## Create a folder
 
-/etc/zabbix/scripts/
+mkdir /etc/zabbix/scripts/
 
 ## Copy file. Disk autodiscovery script:
 
@@ -27,13 +27,15 @@ echo "UserParameter=drives.discovery, /etc/zabbix/scripts/drives.discovery" > /e
 ```
 
 ## Restart zabbix-agent (option depends on your system)
-
+```
 systemctl restart zabbix-agent
+```
 
 or
 
+```
 /etc/init.d/zabbix-agent restart
-
+```
 
 ## Copy files. Scripts to send smart parameters to zabbix-server:
 
@@ -53,9 +55,10 @@ chmod +x /etc/zabbix/scripts/drives.smart.temperature
 
 ## Add scripts to the cron run (drives.smart every hour, drives.smart.temperature every minute):
 
+```
 1 */1 * * * root /etc/zabbix/scripts/drives.smart
-
 */1 * * * * root /etc/zabbix/scripts/drives.smart.temperature
+```
 
 ## Template for zabbix server
 
