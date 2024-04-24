@@ -6,7 +6,11 @@
 - zabbix_agent
 - zabbix_sender
 
-## Disk autodiscovery script (copy along the path):
+## Create a folder
+
+/etc/zabbix/scripts/
+
+## Copy file. Disk autodiscovery script:
 
 /etc/zabbix/scripts/drives.discovery
 
@@ -17,6 +21,7 @@ echo "UserParameter=drives.discovery, /etc/zabbix/scripts/drives.discovery" > /e
 ```
 
 ## Restart zabbix-agent (option depends on your system)
+
 systemctl restart zabbix-agent
 
 or
@@ -24,7 +29,7 @@ or
 /etc/init.d/zabbix-agent restart
 
 
-## Scripts to send smart parameters to zabbix-server (copy along the path):
+## Copy files. Scripts to send smart parameters to zabbix-server:
 
 /etc/zabbix/scripts/drives.drives.smart
 /etc/zabbix/scripts/drives.smart.temperature
@@ -40,3 +45,4 @@ You need to import the template and add it to the desired host.
 
 Path: Template for zabbix\Template_HDD-SMART-LINUX.xml
 
+[Source link](https://valynkin.ru/monitoring-smart-zhestkih-diskov-v-linux-pri-pomoshi-zabbix.html). Corrected errors in source files. Workability tested on RHEL 6.10.
