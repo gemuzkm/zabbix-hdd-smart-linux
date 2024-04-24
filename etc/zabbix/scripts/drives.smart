@@ -1,0 +1,52 @@
+#! /usr/bin/perl
+use strict;
+
+my $ZABBIX_SENDER='/usr/bin/zabbix_sender';
+my $ZABBIX_CONF='/etc/zabbix/zabbix_agentd.conf';
+my $debug = 0;
+
+# Find drives
+
+my @drives;
+my @lines = `/bin/lsblk --output KNAME,TYPE,STATE  --list`;
+
+foreach my $line (@lines){
+    chomp $line;
+    if ($line =~ /^(\S+)\s+disk\s+running/) {push (@drives,$1);}
+}
+
+# Send smart to zabbix
+foreach my $drive (@drives) {
+    my $health='ERROR WHILE GETTING SMART';
+    my @params=('Start_Stop_Count','Reallocated_Sector_Ct','Power_On_Hours','Power_Cycle_Count','Current_Pending_Sector');
+
+    my @smarts = `/usr/sbin/smartctl -a /dev/$drive`;
+    # parse lines and find data
+    foreach my $smart (@smarts) {
+        chomp $smart;
+        # health
+        if ($smart =~ /.+overall-health.+result:\s+(\S+)$/) { $health=$1; next;}
+        # Other params
+        foreach my $param (@params) {
+        my $value = &parse_smart ($smart,$param);
+        &zabbix_send ($drive,$param,$value) if defined $value;
+    } 
+    }
+    # send health parameter to zabbix
+    &zabbix_send ($drive,'health',$health);
+}
+
+sub parse_smart {
+    my $smart = shift;
+    my $param = shift;
+    return $1 if $smart =~ /.+$param.+\s+(\d+)$/;
+    return undef;
+}
+
+sub zabbix_send {
+    my $drive = shift;
+    my $key = shift;
+    my $value = shift;
+    `$ZABBIX_SENDER -c $ZABBIX_CONF -k smart.$key\[$drive\] -o "$value"`;
+    print "$drive\t$key\t$value\n" if $debug;
+}

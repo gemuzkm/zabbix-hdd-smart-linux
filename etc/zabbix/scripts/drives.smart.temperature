@@ -1,0 +1,25 @@
+#! /usr/bin/perl
+use strict;
+
+my $ZABBIX_SENDER='/usr/bin/zabbix_sender';
+my $ZABBIX_CONF='/etc/zabbix/zabbix_agentd.conf';
+my $debug = 0;
+
+# Find drives
+
+my @drives;
+my @lines = `/bin/lsblk --output KNAME,TYPE,STATE  --list`;
+
+foreach my $line (@lines){
+    chomp $line;
+    if ($line =~ /^(\S+)\s+disk\s+running/) {push (@drives,$1);}
+}
+
+# Send smart to zabbix
+foreach my $drive (@drives) {
+    # send drive temperature to zabbix
+    my $temp = `/usr/sbin/smartctl -a /dev/$drive | grep '194 Temperature' | awk '{print \$10}'`;
+    chomp $temp;
+    `$ZABBIX_SENDER -c $ZABBIX_CONF -k smart.Temperature\[$drive\] -o "$temp"` if $temp;
+    print "$drive\tsmart.Temperature\t$temp\n" if $debug;
+}
