@@ -2,7 +2,7 @@
 
 ## Requirements:
 
-- gsmartcontrol (smartctl)
+- smartmontools (smartctl)
 - zabbix-get (zabbix_get)
 - zabbix-sender (zabbix_sender)
 
