@@ -3,8 +3,8 @@
 ## Requirements:
 
 - gsmartcontrol (smartctl)
-- zabbix_agent
-- zabbix_sender
+- zabbix-get (zabbix_get)
+- zabbix-sender (zabbix_sender)
 
 ## Create a folder
 
