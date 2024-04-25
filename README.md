@@ -2,7 +2,7 @@
 
 ## Requirements:
 
-- smartctl
+- gsmartcontrol (smartctl)
 - zabbix_agent
 - zabbix_sender
 
