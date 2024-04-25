@@ -8,7 +8,9 @@
 
 ## Create a folder
 
+```
 mkdir /etc/zabbix/scripts/
+```
 
 ## Copy file. Disk autodiscovery script:
 
