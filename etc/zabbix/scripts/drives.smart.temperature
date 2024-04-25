@@ -18,7 +18,7 @@ foreach my $line (@lines){
 # Send smart to zabbix
 foreach my $drive (@drives) {
     # send drive temperature to zabbix
-    my $temp = `/usr/sbin/smartctl -a /dev/$drive | grep '194 Temperature' | awk '{print \$10}'`;
+    my $temp = `/usr/sbin/smartctl -a /dev/$drive | grep -E '194 Temperature|190 Airflow_Temperature' | awk '{print \$10}'`;
     chomp $temp;
     `$ZABBIX_SENDER -c $ZABBIX_CONF -k smart.Temperature\[$drive\] -o "$temp"` if $temp;
     print "$drive\tsmart.Temperature\t$temp\n" if $debug;
